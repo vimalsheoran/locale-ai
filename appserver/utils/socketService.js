@@ -1,30 +1,37 @@
+const RedisClient = require("./cacheService").RedisClient;
+
 function SocketHandler() {
 
-	this.io;
+	SocketHandler.io;
 
 	this.intializeSockets = (io) => {
 		try {
-			this.io = io;
-			io.on("connection", socket => {
+			SocketHandler.io = io;
+			SocketHandler.io.on("connection", socket => {
+				socket.emit("identify", "");
 				socket.on("init", message => {
 					let userRef = message;
 					let socketId = socket.id;
-					// implement caching in redis
+					RedisClient.set(userRef, socketId);
 				});
 			});
 		} catch (err) {
 			throw err;
 		}
 	}
+}
 
-	this.sendFeedback = (client, msg, channel) => {
-		try {
-			if (!this.io) throw "Sockets not initialized.";
-			// let clientSocket = someRedisOperation(client);
-			this.io.to(clientSocket).emit(channel, msg);
-		} catch (err) {
-			throw err;
-		}
+SocketHandler.sendFeedback = (client, msg, channel) => {
+	try {
+		if (!SocketHandler.io) throw "Sockets not initialized.";
+		RedisClient.client.get(client, (err, val) => {
+			if (err) throw err;
+			SocketHandler.io
+				.to(val)
+				.emit(channel, msg);
+		});
+	} catch (err) {
+		throw err;
 	}
 }
 

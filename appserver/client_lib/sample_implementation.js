@@ -1,4 +1,5 @@
 const Client = require("./client").Client;
+const InitClient = require("./client").InitClient;
 const SERVER_URL = "http://localhost:5000";
 let payload = [
 	{
@@ -25,6 +26,11 @@ let payload = [
 ]
 
 const client = new Client(SERVER_URL);
-client.sendData("/data", payload)
-.then(data => console.log(data))
+
+InitClient().then( async () => {
+	// All logic goes here;
+	let resp = await client.sendData("/data", payload);
+	console.log(resp);
+	client.listenOnSocket();
+})
 .catch(err => console.log(err));
