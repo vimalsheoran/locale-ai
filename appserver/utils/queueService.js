@@ -1,4 +1,5 @@
 const RedisMSQ = require("rsmq");
+const SocketHandler = require("./socketService").SocketHandler;
 const msgQ = new RedisMSQ({
 	"host": "localhost", 
 	"port": 6379, 
@@ -23,17 +24,18 @@ function MsgHandler () {
 		});
 	}
 	
-	this.loadDataToQueue = (tasks) => {
+	this.loadDataToQueue = (messages, clientId) => {
 		try {
 			if(!this.queueName) throw "Message queue not initialized, cannot process.";
-			// Adds all tasks to the queue asynchronously
-			for (let task of tasks) {
+			for (let message of messages) {
+				message.clientId = clientId;
 				msgQ.sendMessage({
 					qname: this.queueName,
-					message: JSON.stringify(task)
+					message: JSON.stringify(message)
 				}, (err, resp) => {
-					// To add a socket event here
-					if (err) throw "Unable to add data to queue";
+					if (err) {
+						SocketHandler.sendFeedback(clientId, message.id, "retry");
+					};
 				})
 			}
 		} catch (err) {
@@ -45,9 +47,6 @@ function MsgHandler () {
 		try {
 			if(!this.queueName) throw "Message queue not initialized";
 			msgQ.popMessage({qname: "msg_queue"}, (err, resp) => {
-				// Add some sort of retry since, a read from queue has failed
-				// No feedback to client required
-				// Throwing error for now
 				if (err) throw "Error reading from the queue";
 				console.log(resp.message);
 			});
