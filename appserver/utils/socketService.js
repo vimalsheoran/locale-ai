@@ -14,6 +14,9 @@ function SocketHandler() {
 					let socketId = socket.id;
 					RedisClient.set(userRef, socketId);
 				});
+				socket.on("scraper_feedback", msg => {
+					SocketHandler.sendScraperFeedback(msg);							
+				})
 			});
 		} catch (err) {
 			throw err;
@@ -29,6 +32,18 @@ SocketHandler.sendFeedback = (client, msg, channel) => {
 			SocketHandler.io
 				.to(val)
 				.emit(channel, msg);
+		});
+	} catch (err) {
+		throw err;
+	}
+}
+
+SocketHandler.sendScraperFeedback = (msg) => {
+	try {
+		if (!SocketHandler.io) throw "Sockets not initialized.";
+		RedisClient.client.get(msg.clientId, (err, val) => {
+			if (err) throw err;
+			SocketHandler.io.to(val).emit(msg.type, msg.packetId);
 		});
 	} catch (err) {
 		throw err;
