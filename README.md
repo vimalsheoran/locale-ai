@@ -26,7 +26,7 @@ Follow these simple steps in order to execute the test.
 
 	`$ ./run.sh`
 
-To read more about the test click [here](#how-does-the-test-proceed?).
+To read more about the test click [here](#how-does-the-test-proceed).
 
 # How does the test proceed?
 
