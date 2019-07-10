@@ -93,6 +93,10 @@ const scrapeQueue = () => {
 			let message = JSON.parse(resp.message);
 			let valsToAdd = tableKeys.map(i => message[i]);
 			try {
+				let failMod = parseInt(message.id);
+				if (failMod%5 === 0) {
+					throw "Failing on purpose. To demonstrate fail case feedback.";
+				}
 				await client.query(addToRides, valsToAdd);
 				provideFeedback("success", message.clientId, message.id);
 			} catch (err) {
