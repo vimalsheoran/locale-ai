@@ -31,16 +31,22 @@ let rawData = fs.readFileSync((__dirname+"/data.json"));
 let jsonData = JSON.parse(rawData);
 let i = 0;
 const client = new Client(SERVER_URL);
-
+console.log("========================================");
+console.log("========= Client Implementation ========");
+console.log("========================================");
 const sendData = () => {
 	setInterval( async () => {
 		let offset = 10;
-		if (i > 150) clearInterval(sendData);
+		if (i > 150) {
+			console.log("Done sending all the data.");
+			clearInterval(sendData);
+			process.exit(0);
+		};
 		let dataToSend = jsonData.slice(i, i+offset);
 		i += offset;
 		let resp = await client.sendData("/data", dataToSend);
 		console.log(resp);
-	}, 30000);
+	}, 5000);
 }
 
 InitClient().then( async () => {

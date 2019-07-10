@@ -13,7 +13,9 @@ const RedisClient = require("./utils/cacheService").RedisClient;
 const msgHandler = new MsgHandler();
 const socketHandler = new SocketHandler();
 const redisClient = new RedisClient();
-
+console.log("================================");
+console.log("========== App Server ==========");
+console.log("================================");
 // Middleware usage
 app.use(bodyParser.json());
 
