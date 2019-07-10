@@ -1,7 +1,8 @@
 const pg = require("pg");
-const port = process.env.PORT;
-const cache_host = process.env.CACHE_HOST;
-const cache_port = process.env.CACHE_PORT;
+const config = require("../config");
+const port = config.APP_PORT;
+const cache_host = config.CACHE_HOST;
+const cache_port = config.CACHE_PORT;
 const APP_SERV = `http://localhost:${port}`
 const socket = require("socket.io-client")(APP_SERV);
 const rsmq = require("rsmq");
@@ -10,12 +11,12 @@ const consumeFrom = "msg_queue";
 const queueScrapeInterval = "500";
 
 // DB Connection details.
-// process.env.PGHOSTADDR = "127.0.0.1";
-// process.env.PGDATABASE = "xrides";
-// process.env.PGUSER = "vimpsykal";
-// process.env.PGPASSWORD = "Vimal@1998";
-// process.env.PGPORT = "5432";
-// process.env.PG_TABLE = "rides";
+process.env.PGHOSTADDR = config.POSTGRES_HOST;
+process.env.PGDATABASE = config.POSTGRES_DATABASE;
+process.env.PGUSER = config.POSTGRES_USERNAME;
+process.env.PGPASSWORD = config.POSTGRES_PASSWORD;
+process.env.PGPORT = config.POSTGRES_PORT;
+process.env.PG_TABLE = config.POSTGRES_TABLE;
 const table = process.env.PG_TABLE;
 
 const client = new pg.Client();

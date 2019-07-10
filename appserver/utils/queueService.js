@@ -1,8 +1,9 @@
 const RedisMSQ = require("rsmq");
+const config = require("../../config");
 const SocketHandler = require("./socketService").SocketHandler;
 const msgQ = new RedisMSQ({
-	"host": process.env.CACHE_HOST, 
-	"port": process.env.CACHE_PORT, 
+	"host": config.CACHE_HOST, 
+	"port": config.CACHE_PORT, 
 	"ns": "rsmq"
 });
 

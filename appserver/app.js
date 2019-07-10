@@ -1,8 +1,9 @@
 // Dependency import
 const app = require("express")();
+const config = require("../config")
 const bodyParser = require("body-parser");
 const http = require("http").createServer(app);
-const port = process.env.PORT;
+const port = config.APP_PORT;
 const io = require("socket.io")(http);
 const MsgHandler = require("./utils/queueService").MsgHandler;
 const SocketHandler = require("./utils/socketService").SocketHandler;

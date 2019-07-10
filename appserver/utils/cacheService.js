@@ -1,6 +1,7 @@
 const redis = require("redis");
-const host = process.env.CACHE_HOST;
-const port = process.env.CACHE_PORT;
+const config = require("../../config");
+const host = config.CACHE_HOST;
+const port = config.CACHE_PORT;
 
 function RedisClient() {
 	
