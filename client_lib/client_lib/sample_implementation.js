@@ -1,6 +1,7 @@
 const Client = require("./client").Client;
 const InitClient = require("./client").InitClient;
-const SERVER_URL = "http://localhost:5000";
+const port = process.env.PORT;
+const SERVER_URL = `http://localhost:${port}`;
 const fs = require("fs");
 let payload = [
 	{

@@ -1,21 +1,26 @@
 const pg = require("pg");
-const APP_SERV = "http://localhost:5000"
+const port = process.env.PORT;
+const cache_host = process.env.CACHE_HOST;
+const cache_port = process.env.CACHE_PORT;
+const APP_SERV = `http://localhost:${port}`
 const socket = require("socket.io-client")(APP_SERV);
 const rsmq = require("rsmq");
-const MsgQ = new rsmq({"host": "127.0.0.1", "port": 6379});
+const MsgQ = new rsmq({"host": cache_host, "port": cache_port});
 const consumeFrom = "msg_queue";
 const queueScrapeInterval = "500";
 
 // DB Connection details.
-process.env.PGHOSTADDR = "127.0.0.1";
-process.env.PGDATABASE = "xrides";
-process.env.PGUSER = "vimpsykal";
-process.env.PGPASSWORD = "Vimal@1998";
-process.env.PGPORT = "5432";
+// process.env.PGHOSTADDR = "127.0.0.1";
+// process.env.PGDATABASE = "xrides";
+// process.env.PGUSER = "vimpsykal";
+// process.env.PGPASSWORD = "Vimal@1998";
+// process.env.PGPORT = "5432";
+// process.env.PG_TABLE = "rides";
+const table = process.env.PG_TABLE;
 
 const client = new pg.Client();
 const addToRides = `INSERT INTO 
-rides(
+${table}(
 	id, 
 	user_id, 
 	vehicle_model_id, 

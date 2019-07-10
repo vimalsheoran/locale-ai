@@ -1,11 +1,13 @@
 const redis = require("redis");
+const host = process.env.CACHE_HOST;
+const port = process.env.CACHE_PORT;
 
 function RedisClient() {
 	
 	RedisClient.client;
 	
 	this.initialize = () => {
-		RedisClient.client = redis.createClient();
+		RedisClient.client = redis.createClient(host, port);
 		RedisClient.client.on("error", err => console.log(err));
 		console.log("Cache connected.");
 	}
