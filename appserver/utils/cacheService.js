@@ -8,7 +8,7 @@ function RedisClient() {
 	RedisClient.client;
 	
 	this.initialize = () => {
-		RedisClient.client = redis.createClient(host, port);
+		RedisClient.client = redis.createClient(port, host);
 		RedisClient.client.on("error", err => console.log(err));
 		console.log("Cache connected.");
 	}
