@@ -27,8 +27,7 @@ let payload = [
 		"car_cancellation": "19"	
 	}
 ]
-
-let rawData = fs.readFileSync("data.json");
+let rawData = fs.readFileSync((__dirname+"/data.json"));
 let jsonData = JSON.parse(rawData);
 let i = 0;
 const client = new Client(SERVER_URL);

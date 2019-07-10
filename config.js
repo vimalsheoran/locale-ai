@@ -4,7 +4,7 @@ module.exports = {
 	"CACHE_PORT": "6379",
 	"POSTGRES_HOST": "127.0.0.1",
 	"POSTGRES_PORT": "5432",
-	"PORTGRES_USERNAME": "vimpsykal",
+	"POSTGRES_USERNAME": "vimpsykal",
 	"POSTGRES_PASSWORD": "Vimal@1998",
 	"POSTGRES_DATABASE": "xrides",
 	"POSTGRES_TABLE": "rides" 	
