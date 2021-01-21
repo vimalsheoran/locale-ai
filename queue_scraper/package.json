@@ -11,6 +11,6 @@
   "dependencies": {
     "pg": "^7.11.0",
     "rsmq": "^0.11.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   }
 }
